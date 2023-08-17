@@ -1,5 +1,5 @@
 interface Champion {
-  key: string,
+  c_key: string,
   id: string,
   name: string,
   image: string

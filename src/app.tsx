@@ -1,19 +1,42 @@
+import { useEffect, useState } from 'preact/hooks'
+import Card from './components/Card'
 import fetchRandomChampions from './data/fetchRandomChampions'
-import './styles/app.css'
-
-const test = await fetchRandomChampions(10)
+import Score from './components/Score'
 
 export function App() {
+  const [score, setScore] = useState(0)
+  const [bestScore, setBestScore] = useState(0)
+  const [cards, setCards] = useState(new Array<Champion>(10))
+
+  useEffect(() => {
+    async function generateCards() {
+      const arr = await fetchRandomChampions(10)
+      setCards(arr)
+    }
+    generateCards()
+  }, [])
+  
+  function handleClickCard(key: string) {
+    console.log(key)
+  }
+
   return (
-    <section>
-      {test.map((champ: Champion) => {
-        return (
-          <div class="card">
-            <h1>{champ.name}</h1>
-            <img class='image' src={champ.image}/>
-          </div>
-        )
-      })}
-    </section>
+    <>
+      <header class={`absolute top-0 bg-black w-screen h-20 text-slate-200 font-poppins antialiased`}>
+        <div>
+
+        </div>
+        <Score current={score} best={bestScore} />
+      </header>
+      <section
+        class={`text-center align-middle`}
+      >
+        {cards.map((champ: Champion) => {
+          return (
+            <Card c_key={champ.c_key} name={champ.name} image={champ.image} handleClick={handleClickCard} />
+          )
+        })}
+      </section>
+    </>
   )
 }
