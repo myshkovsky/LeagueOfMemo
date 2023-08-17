@@ -1,0 +1,26 @@
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 1.3rem;
+  margin: .3em;
+}
+
+.card {
+  float: left;
+  display: inline;
+  border: 5px solid indigo;
+  margin: 1em;
+  text-align: center;
+}
+
+.image {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  margin: 0;
+  padding: 0;
+}
