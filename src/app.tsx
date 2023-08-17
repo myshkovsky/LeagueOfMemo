@@ -5,7 +5,7 @@ import Score from './components/Score'
 
 export function App() {
   const [score, setScore] = useState(0)
-  const [bestScore, setBestScore] = useState(0)
+  const [bestScore, setBestScore] = useState(11)
   const [cards, setCards] = useState(new Array<Champion>(10))
 
   useEffect(() => {
