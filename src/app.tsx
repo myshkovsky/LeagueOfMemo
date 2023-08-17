@@ -2,6 +2,7 @@ import { useEffect, useState } from 'preact/hooks'
 import Card from './components/Card'
 import fetchRandomChampions from './data/fetchRandomChampions'
 import Score from './components/Score'
+import Logo from './components/Logo'
 
 export function App() {
   const [score, setScore] = useState(0)
@@ -22,15 +23,11 @@ export function App() {
 
   return (
     <>
-      <header class={`absolute top-0 bg-black w-screen h-20 text-slate-200 font-poppins antialiased`}>
-        <div>
-
-        </div>
+      <header class={`absolute grid grid-flow-col top-0 left-0 z-10 bg-black w-screen grid-cols-2 grid-rows-1 h-20 text-slate-200 font-poppins antialiased place-items-center`}>
+        <Logo />
         <Score current={score} best={bestScore} />
       </header>
-      <section
-        class={`text-center align-middle`}
-      >
+      <section class={`text-center align-middle max-w-6xl`}>
         {cards.map((champ: Champion) => {
           return (
             <Card c_key={champ.c_key} name={champ.name} image={champ.image} handleClick={handleClickCard} />
