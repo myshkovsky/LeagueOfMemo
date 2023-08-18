@@ -3,22 +3,74 @@ import Card from './components/Card'
 import fetchRandomChampions from './data/fetchRandomChampions'
 import Score from './components/Score'
 import Logo from './components/Logo'
+import shuffle from './utils/shuffle'
+import emptyStringArray from './utils/emptyStringArray'
 
 export function App() {
   const [score, setScore] = useState(0)
-  const [bestScore, setBestScore] = useState(11)
+  const [bestScore, setBestScore] = useState(0)
   const [cards, setCards] = useState(new Array<Champion>(10))
+  const [clickedCards, setClickedCards] = useState(emptyStringArray())
+  const [isGameRunning, setIsGameRunning] = useState(false)
+  const [wins, setWins] = useState(0)
 
   useEffect(() => {
     async function generateCards() {
+      console.info('Reloading cards...')
       const arr = await fetchRandomChampions(10)
       setCards(arr)
     }
-    generateCards()
-  }, [])
-  
+    if (!isGameRunning) {
+      console.log('Starting new game in 1 second...')
+      setTimeout(() => {
+        setIsGameRunning(true)
+        generateCards()
+      }, 1000);
+    }
+  }, [isGameRunning])
+
+  function addScore() {
+    const newScore = score + 1
+    setScore(newScore)
+    if (newScore > bestScore) {
+      setBestScore(newScore)
+    }
+  }
+
+  function handleFinish() {
+    setIsGameRunning(false)
+    setScore(0)
+    setClickedCards([])
+  }
+
+  function handleCards(currentHits: number) {
+    if (currentHits == cards.length) {
+      console.log('You won!')
+      // handle win
+      setWins(wins + 1)
+      console.log(`You won ${wins + 1} times!`)
+      handleFinish()
+    } else {
+      setCards((cards) => shuffle(cards))
+    }
+  }
+
+  function handleGameOver() {
+    console.log('You lost!')
+    // handle game over
+    handleFinish()
+  }
+
   function handleClickCard(key: string) {
-    console.log(key)
+    if (clickedCards.includes(key)) {
+      handleGameOver()
+    } else {
+      const newClickedCards = [...clickedCards, key]
+      setClickedCards(newClickedCards)
+      addScore()
+      handleCards(newClickedCards.length)
+      console.log(`hit: ${newClickedCards.length}, total: ${cards.length}`)
+    }
   }
 
   return (
