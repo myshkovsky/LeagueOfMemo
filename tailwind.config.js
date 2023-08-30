@@ -10,8 +10,8 @@ export default {
         'poppins': ['Poppins', 'sans-serif']
       },
       cursor: {
-        'league-default': 'url(./src/assets/default.cur), default',
-        'league-pointer': 'url(./src/assets/pointer.cur), pointer'
+        'league-default': "url('/src/assets/default.cur'), default",
+        'league-pointer': "url('/src/assets/pointer.cur'), pointer"
       },
       'animation': {
         'text': 'text 2.5s ease infinite'
