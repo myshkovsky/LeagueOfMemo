@@ -6,6 +6,7 @@ import Logo from './components/header/Logo'
 import shuffle from './utils/shuffle'
 import emptyStringArray from './utils/emptyStringArray'
 import GameOver from './components/GameOver'
+import Spinner from './components/Spinner'
 
 export function App() {
   const [score, setScore] = useState(0)
@@ -17,6 +18,7 @@ export function App() {
   const [dialogVisible, setDialogVisible] = useState(false)
   const [wins, setWins] = useState(0)
   const [flushCards, setFlushCards] = useState(true)
+  const [showSpinner, setShowSpinner] = useState(true)
 
   useEffect(() => {
     async function generateCards() {
@@ -26,11 +28,13 @@ export function App() {
     }
     if (flushCards) {
       console.log('Starting new game in 1 second...')
+      setShowSpinner(true)
       setTimeout(() => {
         setFlushCards(false)
         setPlayerWon(false)
         setDialogVisible(false)
         generateCards()
+        setShowSpinner(false)
       }, 1000);
     }
   }, [flushCards])
@@ -100,7 +104,10 @@ export function App() {
         <Score current={score} best={bestScore} />
       </header>
       <section class={`text-center align-middle max-w-6xl z-0`}>
-        {cards.map((champ: Champion) => {
+        {showSpinner ? (
+          <Spinner />
+        ) : null}
+        {showSpinner ? (<div class={'w-screen h-[500px]'}></div>) : cards.map((champ: Champion) => {
           return (
             <Card c_key={champ.c_key} name={champ.name} image={champ.image} handleClick={handleClickCard} />
           )
