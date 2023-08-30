@@ -13,7 +13,6 @@ export function App() {
   const [bestScore, setBestScore] = useState(0)
   const [cards, setCards] = useState(new Array<Champion>(10))
   const [clickedCards, setClickedCards] = useState(emptyStringArray())
-  // const [isGameRunning, setIsGameRunning] = useState(false)
   const [playerWon, setPlayerWon] = useState(false)
   const [dialogVisible, setDialogVisible] = useState(false)
   const [wins, setWins] = useState(0)
@@ -22,12 +21,10 @@ export function App() {
 
   useEffect(() => {
     async function generateCards() {
-      console.info('Reloading cards...')
       const arr = await fetchRandomChampions(10)
       setCards(arr)
     }
     if (flushCards) {
-      console.log('Starting new game in 1 second...')
       setShowSpinner(true)
       setTimeout(() => {
         setFlushCards(false)
@@ -49,8 +46,6 @@ export function App() {
 
   function handleCards(currentHits: number) {
     if (currentHits == cards.length) {
-      console.log('You won!')
-      // handle win
       handleGameOver(true)
     } else {
       setCards((cards) => shuffle(cards))
@@ -62,10 +57,7 @@ export function App() {
       const newWins = wins + 1
       setWins(newWins)
       setPlayerWon(true)
-      console.log(`You won ${newWins} times!`)
     } else {
-      console.log('You lost!')
-      // handle game over
       setPlayerWon(false)
       setScore(0)
     }
@@ -74,13 +66,11 @@ export function App() {
   }
 
   function handleRestart() {
-    console.log('restart clicked')
     setScore(0)
     setFlushCards(true)
   }
 
   function handleContinue() {
-    console.log('continue clicked')
     setFlushCards(true)
   }
 
@@ -92,7 +82,6 @@ export function App() {
       setClickedCards(newClickedCards)
       addScore()
       handleCards(newClickedCards.length)
-      console.log(`hit: ${newClickedCards.length}, total: ${cards.length}`)
     }
   }
 
@@ -107,7 +96,7 @@ export function App() {
         {showSpinner ? (
           <Spinner />
         ) : null}
-        {showSpinner ? (<div class={'w-screen h-[500px]'}></div>) : cards.map((champ: Champion) => {
+        {showSpinner ? (<div class={'h-[40rem]'}></div>) : cards.map((champ: Champion) => {
           return (
             <Card c_key={champ.c_key} name={champ.name} image={champ.image} handleClick={handleClickCard} />
           )
